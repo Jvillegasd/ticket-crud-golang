@@ -22,7 +22,7 @@ func (app *App) InitRoutes() {
 
 func (app *App) InitDatabase(user, password, dbname string) {
 	connectionString := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, password, dbname)
-
+	fmt.Println(connectionString)
 	var err error
 	app.DB, err = sql.Open("postgres", connectionString)
 	if err != nil {
