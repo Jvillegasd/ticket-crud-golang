@@ -11,11 +11,12 @@ type ticket struct {
 	User      string    `json:"user"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
-	status    bool      `json:"status"`
+	Status    bool      `json:"status"`
 }
 
 func (t *ticket) getTicket(db *sql.DB) error {
-	return errors.New("Not implemented")
+	return db.QueryRow("SELECT id, user, status FROM tickets WHERE id=$1",
+		t.ID).Scan(&t.ID, &t.User, &t.Status)
 }
 
 func (t *ticket) getAllTickets(db *sql.DB) ([]ticket, error) {
@@ -23,17 +24,27 @@ func (t *ticket) getAllTickets(db *sql.DB) ([]ticket, error) {
 }
 
 func (t *ticket) createTicket(db *sql.DB) error {
-	return errors.New("Not implemented")
+	err := db.QueryRow(
+		"INSERT INTO tickets(user, status) VALUES($1, $2) RETURNING id",
+		t.User, t.Status).Scan(&t.ID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (t *ticket) updateTicket(db *sql.DB) error {
-	return errors.New("Not implemented")
-}
+	_, err := db.Exec(
+		"UPDATE tickets SET User user=$1 status=$2 WHERE id=$3",
+		t.User, t.Status, t.ID)
 
-func (t *ticket) editTicket(db *sql.DB) error {
-	return errors.New("Not implemented")
+	return err
 }
 
 func (t *ticket) deleteTicket(db *sql.DB) error {
-	return errors.New("Not implemented")
+	_, err := db.Exec("DELETE FROM tickets WHERE id=$id", t.ID)
+
+	return err
 }
