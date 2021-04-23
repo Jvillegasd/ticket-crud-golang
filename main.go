@@ -4,11 +4,11 @@ import "os"
 
 func main() {
 	app := App{}
-	app.initDatabase(
+	app.InitDatabase(
 		os.Getenv("DB_USERNAME"),
 		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME")
-	)
-	app.initRoutes()
-	app.run()
+		os.Getenv("DB_NAME"))
+
+	app.InitRoutes()
+	app.Run()
 }

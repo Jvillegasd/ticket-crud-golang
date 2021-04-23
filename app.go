@@ -1,28 +1,35 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 
-	"database/sql"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 )
 
 type App struct {
 	Router *mux.Router
-	DB *sql.DB
+	DB     *sql.DB
 }
 
-func (app *App) initRoutes() {
+func (app *App) InitRoutes() {
 	app.Router = mux.NewRouter()
 
 }
 
-func (app *App) initDatabase(user, password, dbname string) {
-	
+func (app *App) InitDatabase(user, password, dbname string) {
+	connectionString := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, password, dbname)
+
+	var err error
+	app.DB, err = sql.Open("postgres", connectionString)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
-func (app *App) run() {
+func (app *App) Run() {
 	log.Fatal(http.ListenAndServe(":2600", app.Router))
 }
