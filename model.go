@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"errors"
 	"time"
 )
 
@@ -19,8 +18,27 @@ func (t *ticket) getTicket(db *sql.DB) error {
 		t.ID).Scan(&t.ID, &t.User, &t.Status)
 }
 
-func (t *ticket) getAllTickets(db *sql.DB) ([]ticket, error) {
-	return nil, errors.New("Not implemented")
+func getAllTickets(db *sql.DB, start, count int) ([]ticket, error) {
+	rows, err := db.Query(
+		"SELECT id user, status FROM tickets LIMIT $1 OFFSET $2",
+		count, start)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	tickets := []ticket{}
+	for rows.Next() {
+		var t ticket
+		if err := rows.Scan(&t.ID, &t.User, &t.Status); err != nil {
+			return nil, err
+		}
+		tickets = append(tickets, t)
+	}
+
+	return tickets, nil
 }
 
 func (t *ticket) createTicket(db *sql.DB) error {

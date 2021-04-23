@@ -33,3 +33,7 @@ func (app *App) InitDatabase(user, password, dbname string) {
 func (app *App) Run() {
 	log.Fatal(http.ListenAndServe(":2600", app.Router))
 }
+
+func (app *App) getTicket() {
+
+}
