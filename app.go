@@ -28,8 +28,8 @@ func (app *App) InitRoutes() {
 	app.Router.HandleFunc("/tickets/{id:[0-9]+}", app.deleteTicket).Methods("DELETE")
 }
 
-func (app *App) InitDatabase(user, password, dbname string) {
-	connectionString := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, password, dbname)
+func (app *App) InitDatabase(user, password, dbname, dbhost, port string) {
+	connectionString := fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=disable", user, password, dbhost, port, dbname)
 
 	var err error
 	app.DB, err = sql.Open("postgres", connectionString)

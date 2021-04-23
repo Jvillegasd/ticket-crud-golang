@@ -11,6 +11,7 @@ Para evitar problemas de dependencias se optó por usar Docker para crear un con
 
 ## Aclaraciones:
 Se dejó el archivo `.env` en el repositorio por cuestiones de la prueba.
+Por otro lado, el archivo de los endpoint `Prueba tecnica.postman_collection.json` puede ser cargado en Postman para probar la api.
 
 ## Iniciar proyecto:
 Como es un proyecto dockerizado, se requiere instanciar los contenedores con el siguiente comando: `docker-compose -up -d --build`.

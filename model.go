@@ -6,21 +6,21 @@ import (
 )
 
 type ticket struct {
-	ID        int       `json:"id"`
-	User      string    `json:"user"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	Status    bool      `json:"status"`
+	ID           int    `json:"id"`
+	Username     string `json:"username"`
+	CreatedAt    string `json:"created_at"`
+	UpdatedAt    string `json:"updated_at"`
+	TicketStatus bool   `json:"ticket_status"`
 }
 
 func (t *ticket) getTicket(db *sql.DB) error {
-	return db.QueryRow("SELECT id, user, status FROM tickets WHERE id=$1",
-		t.ID).Scan(&t.ID, &t.User, &t.Status)
+	return db.QueryRow("SELECT id, username, ticket_status, created_at, updated_at FROM tickets WHERE id=$1",
+		t.ID).Scan(&t.ID, &t.Username, &t.TicketStatus, &t.CreatedAt, &t.UpdatedAt)
 }
 
 func getAllTickets(db *sql.DB, start, count int) ([]ticket, error) {
 	rows, err := db.Query(
-		"SELECT id user, status FROM tickets LIMIT $1 OFFSET $2",
+		"SELECT id, username, ticket_status, created_at, updated_at FROM tickets LIMIT $1 OFFSET $2",
 		count, start)
 
 	if err != nil {
@@ -32,7 +32,7 @@ func getAllTickets(db *sql.DB, start, count int) ([]ticket, error) {
 	tickets := []ticket{}
 	for rows.Next() {
 		var t ticket
-		if err := rows.Scan(&t.ID, &t.User, &t.Status); err != nil {
+		if err := rows.Scan(&t.ID, &t.Username, &t.TicketStatus, &t.CreatedAt, &t.UpdatedAt); err != nil {
 			return nil, err
 		}
 		tickets = append(tickets, t)
@@ -43,8 +43,8 @@ func getAllTickets(db *sql.DB, start, count int) ([]ticket, error) {
 
 func (t *ticket) createTicket(db *sql.DB) error {
 	err := db.QueryRow(
-		"INSERT INTO tickets(user, status) VALUES($1, $2) RETURNING id",
-		t.User, t.Status).Scan(&t.ID)
+		"INSERT INTO tickets(username, ticket_status) VALUES($1, $2) RETURNING id",
+		t.Username, t.TicketStatus).Scan(&t.ID)
 
 	if err != nil {
 		return err
@@ -55,14 +55,14 @@ func (t *ticket) createTicket(db *sql.DB) error {
 
 func (t *ticket) updateTicket(db *sql.DB) error {
 	_, err := db.Exec(
-		"UPDATE tickets SET User user=$1 status=$2 WHERE id=$3",
-		t.User, t.Status, t.ID)
+		"UPDATE tickets SET username=$1, ticket_status=$2, updated_at=$3 WHERE id=$4",
+		t.Username, t.TicketStatus, time.Now(), t.ID)
 
 	return err
 }
 
 func (t *ticket) deleteTicket(db *sql.DB) error {
-	_, err := db.Exec("DELETE FROM tickets WHERE id=$id", t.ID)
+	_, err := db.Exec("DELETE FROM tickets WHERE id=$1", t.ID)
 
 	return err
 }

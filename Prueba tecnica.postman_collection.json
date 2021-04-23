@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "7e789f28-43a8-4636-adff-b8fc8b396f14",
+		"name": "Prueba tecnica",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:2600/",
+					"host": [
+						"localhost"
+					],
+					"port": "2600",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener ticketes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:2600/tickets",
+					"host": [
+						"localhost"
+					],
+					"port": "2600",
+					"path": [
+						"tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener tickete especifico",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:2600/tickets/1",
+					"host": [
+						"localhost"
+					],
+					"port": "2600",
+					"path": [
+						"tickets",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear tickete",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"some_usernamekk2\",\r\n    \"ticket_status\": true\r\n}"
+				},
+				"url": {
+					"raw": "localhost:2600/tickets",
+					"host": [
+						"localhost"
+					],
+					"port": "2600",
+					"path": [
+						"tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar tickete",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"some_username_asd1asdas\",\r\n    \"ticket_status\": false\r\n}"
+				},
+				"url": {
+					"raw": "localhost:2600/tickets/1",
+					"host": [
+						"localhost"
+					],
+					"port": "2600",
+					"path": [
+						"tickets",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar tickete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:2600/tickets/1",
+					"host": [
+						"localhost"
+					],
+					"port": "2600",
+					"path": [
+						"tickets",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

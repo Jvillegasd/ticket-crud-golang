@@ -4,8 +4,6 @@ import (
 	"log"
 	"os"
 	"testing"
-
-	"prueba_tecnica"
 )
 
 var a main.App
@@ -14,8 +12,10 @@ func TestMain(m *testing.M) {
 	a.InitDatabase(
 		os.Getenv("DB_USERNAME"),
 		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"))
-		
+		os.Getenv("DB_NAME"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"))
+
 	a.InitRoutes()
 	ensureTableExists()
 	code := m.Run()
