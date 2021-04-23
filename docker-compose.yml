@@ -1,6 +1,14 @@
 version: '3.7'
 
 services:
+  test-go:
+    container_name: test-go
+    build: .
+    env_file: .env
+    networks:
+      - test_jv_network
+    ports:
+      - ${API_PORT}:${API_PORT}    
   test-db:
     image: postgres
     container_name: test-db
